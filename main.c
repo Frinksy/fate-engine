@@ -4,6 +4,7 @@
 #include "mapViewer.h"
 #include "types.h"
 #include "eventHandler.h"
+#include "renderEngine.h"
 
 int main()
 {
@@ -59,11 +60,11 @@ int main()
     int playing = 1;
 
     Line *lines = NULL;
-    int lineCount = 0;
-    lineCount = loadMap("map.fmap", &lines);
+    int line_count = 0;
+    line_count = loadMap("map.fmap", &lines);
 
 
-    printLines(lines, lineCount);
+    printLines(lines, line_count);
     
     Player player;
     player.x = 0;
@@ -76,11 +77,23 @@ int main()
         SDL_RenderClear(map_renderer);
         SDL_SetRenderDrawColor(map_renderer, 255,255,255, 255);
 
-        drawLines(map_renderer, lines, lineCount);
+        drawLines(map_renderer, lines, line_count);
         drawPlayer(map_renderer, &player);
         SDL_RenderPresent(map_renderer);
 
+
+
+        SDL_SetRenderDrawColor(game_renderer, 0,0,0,255);
+        SDL_RenderClear(game_renderer);
+        SDL_SetRenderDrawColor(game_renderer, 255,255,255,255);
+
+        for (int i = 0; i < line_count; i++)
+        {      
+            drawWall(game_renderer, lines[i], &player);
+        }
+
         SDL_RenderPresent(game_renderer);
+
 
         SDL_Event event;
         while (SDL_PollEvent(&event))
