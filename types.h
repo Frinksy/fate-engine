@@ -24,7 +24,7 @@ struct Player
 {
     int x;
     int y;
-    unsigned int angle;
+    int angle;
 };
 
 
